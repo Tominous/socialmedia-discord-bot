@@ -52,7 +52,7 @@ function exitHandler(opt, err) {
 	}
 	if(opt.save) {
 		print("Saving channels to " + channelPath + " before exiting");
-		//print(JSON.stringify(servers));
+		print(JSON.stringify(servers));
 		fs.writeFileSync(channelPath, JSON.stringify(servers, null, 4));
 		print("Saving logs to " + logPath + " before exiting");
 		fs.writeFileSync(logPath, JSON.stringify(logs, null, 4));
@@ -676,13 +676,13 @@ function sendBirthday(server, userInfo) {
 		}
 		
 		var embed = new Discord.RichEmbed()
-			//.setColor("#3b5998")
+			.setColor("#3b5998")
 			.setTitle("Happy Birthday!")
-			//.setURL(res.link)
+			.setURL(res.link)
 			.setDescription(birthdayMessage)
-			//.setImage(res.cover.source)
-			//.setThumbnail(res.picture.data.url)
-			//.setFooter("Facebook", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/200px-F_icon.svg.png");
+			.setImage(res.cover.source)
+			.setThumbnail(res.picture.data.url)
+			.setFooter("Facebook", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/200px-F_icon.svg.png");
 
 		if(channels.length !== 0) {
 			for(let i = 0; i < channels.length; i++) {
@@ -705,7 +705,7 @@ function tick() {
 	let day = d.getDate();
 	let hour = d.getHours() + 1;
 	let sendBirthdays = false;
-	//print("Checking if send");
+	print("Checking if send");
 	if (hour < 12) {
 		sentBirthdays = false;
 		sendBirthdays = false;
@@ -715,7 +715,7 @@ function tick() {
 	} else {
 		sendBirthdays = false;
 	}
-	//print("Enter Tick Loop");
+	print("Enter Tick Loop");
 	for(let i = 0; i < servers.length; i++) {
 		for(let k = -1; k < servers[i].discordChannels.length; k++) {
 			for(let j = 0; j < servers[i].twitchChannels.length; j++) {
@@ -749,22 +749,22 @@ function tick() {
 				}
 			}
 		}
-		//print("Start Birthday");
+		print("Start Birthday");
 		if (sendBirthdays) {
-			//print("Enter For Loop");
+			print("Enter For Loop");
 			for(let j = 0; j < servers[i].userInfos.length; j++) {
-				//print("Check Birthday");
+				print("Check Birthday");
 				if (servers[i].userInfos[j] && servers[i].userInfos[j].birthMonth == month && servers[i].userInfos[j].birthDay == day) {
-					//print("Send Birthday Function");
+					print("Send Birthday Function");
 					sendBirthday(servers[i], servers[i].userInfos[j]);
 				}
 			}
 		}
 	}
-	//print("End Tick");
+	print("End Tick");
 }
 
-/*bot.on("messageDelete", (message) => {
+bot.on("messageDelete", (message) => {
 	var server;
 	if(!message.guild){
 		return;
@@ -785,7 +785,7 @@ function tick() {
 			channel.send(msg);
 		}
 	}
-});*/
+});
 
 bot.on("message", (message) => {
 	var server, twitchChannels, twitterFeeds, youTubeChannels, blogSites, customLinks, mixerChannels, bannedWords, facebookPages, userInfos;
@@ -904,15 +904,15 @@ bot.on("message", (message) => {
 					userInfos.push(userInfo);
 				}
 				
-				//message.reply("Successfully set " + message.content.substring(10,14).trim() + " for " + discordTag + ".");
+				message.reply("Successfully set " + message.content.substring(10,14).trim() + " for " + discordTag + ".");
 			} else if (message.content.substring(6,9) == "get") {
 				var tag = "";
 				if (message.mentions.users.array().length > 0) {
 					let calledUser = message.mentions.users.first();
-					//tag = calledUser.username + "#" + calledUser.discriminator;
+					tag = calledUser.username + "#" + calledUser.discriminator;
 					tag = calledUser.id;
 				} else {
-					//tag = message.content.slice(10).trim().replace("@","");
+					tag = message.content.slice(10).trim().replace("@","");
 				}
 				if (tag == undefined || tag == "") {
 					tag = discordTag;
@@ -935,7 +935,7 @@ bot.on("message", (message) => {
 				var tag = "";
 				if (message.mentions.users.array().length > 0) {
 					let calledUser = message.mentions.users.first();
-					//tag = calledUser.username + "#" + calledUser.discriminator;
+					tag = calledUser.username + "#" + calledUser.discriminator;
 					tag = calledUser.id;
 				} else {
 					tag = message.content.slice(13).trim();
@@ -943,10 +943,10 @@ bot.on("message", (message) => {
 				if (tag == undefined || tag == "") {
 					tag = discordTag;
 				}
-				/*let tag = message.content.slice(13).trim().replace("@","");
+				let tag = message.content.slice(13).trim().replace("@","");
 				if (tag == "") {
 					tag = discordTag;
-				}*/
+				}
 				if (tag != discordTag && !permission) {
 					message.reply("you're lacking the role _" + server.role + "_.");
 					return;
@@ -967,7 +967,7 @@ bot.on("message", (message) => {
 				if (userInfos.length == 0) {
 					msg = "The list is empty.";
 				} else {
-					msg = "\nUser Info List:";
+					msg = "\nUser Information List:";
 					for(let u = 0; u < userInfos.length; u++) {
 						userInfo = userInfos[u];
 						msg += "\n\nID: " + userInfo.name + "\nTag: " + userInfo.tag + "\nLink: " + userInfo.link;
@@ -1322,7 +1322,7 @@ bot.on("message", (message) => {
 				.setColor('GOLD')
 				.setTitle(bot.user.tag)
 				.setAuthor("KSI Discord Bot")
-				//.setURL("https://discordapp.com/oauth2/authorize?client_id=335397266997248000&scope=bot")
+				.setURL("https://discordapp.com/oauth2/authorize?client_id=335397266997248000&scope=bot")
 				.setURL("https://discordapp.com/oauth2/authorize?client_id=" + bot.user.id + "&scope=bot")
 				.setDescription("A custom made bot to help push social media updates and allows custom, easy-access links to be created.")
 				.setThumbnail(bot.user.displayAvatarURL)
@@ -1670,16 +1670,16 @@ print("File read successfully.");
 bot.login(settings.token).then((token) => {
 	if(token) {
 		print("Logged in as " + bot.user.tag);
-		//print("");
-		//print("Secrets:");
-		//print("Discord Token: " + token);
-		//print("Twitch Client ID: " + settings.twitchClientID);
-		//print("Twitter Key: " + settings.twitterKey);
-		//print("Twitter Secret: " + settings.twitterSecret);
-		//print("Twitter Bearer Token: " + settings.twitterBearerToken);
-		//print("YouTube Key: " + settings.youTubeApiKey);
-		//print("Facebook Client ID: " + settings.facebookClient);
-		//print("Facebook Secret: " + settings.facebookSecret);
+		print("");
+		print("Secrets:");
+		print("Discord Token: " + token);
+		print("Twitch Client ID: " + settings.twitchClientID);
+		print("Twitter Key: " + settings.twitterKey);
+		print("Twitter Secret: " + settings.twitterSecret);
+		print("Twitter Bearer Token: " + settings.twitterBearerToken);
+		print("YouTube Key: " + settings.youTubeApiKey);
+		print("Facebook Client ID: " + settings.facebookClient);
+		print("Facebook Secret: " + settings.facebookSecret);
 		print("");
 		var guildArray = bot.guilds.array();
 		print("Member of " + guildArray.length + " servers");
